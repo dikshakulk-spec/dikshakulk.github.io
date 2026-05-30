@@ -220,7 +220,7 @@ nav.scrolled .hamburger span{background:var(--ink);}
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="nav-cta" onclick="openHireMe()">Hire Me</button>
-  <button class="hamburger" id="hamburger" aria-label="Menu" style="background:none;border:none;outline:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;"><span></span><span></span><span></span></button>
+  <button onclick="document.getElementById('mobileMenu').classList.toggle('open')" style="background:none;border:none;outline:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:5px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;z-index:300;position:relative;"><span style="display:block;width:24px;height:2px;background:var(--cream);"></span><span style="display:block;width:24px;height:2px;background:var(--cream);"></span><span style="display:block;width:24px;height:2px;background:var(--cream);"></span></button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
@@ -230,7 +230,7 @@ nav.scrolled .hamburger span{background:var(--ink);}
   <a href="#education" onclick="closeMobile()">Education</a>
   <a href="#contact" onclick="closeMobile()">Contact</a>
   <button onclick="closeMobile();openHireMe();" style="background:var(--gold2);color:var(--dark);border:none;padding:0.75rem 2rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;margin-top:1rem;">Hire Me</button>
-  <button onclick="closeMobile()" style="position:absolute;top:1.5rem;right:1.5rem;background:transparent;border:none;color:var(--cream);font-size:1.8rem;cursor:pointer;line-height:1;">✕</button>
+  <button onclick="document.getElementById('mobileMenu').classList.remove('open')" style="position:absolute;top:1.5rem;right:1.5rem;background:transparent;border:none;color:var(--cream);font-size:1.8rem;cursor:pointer;line-height:1;touch-action:manipulation;">✕</button>
 </div>
 
 <!-- HERO -->
@@ -565,14 +565,7 @@ document.getElementById('hireMeForm').addEventListener('submit',async function(e
 });
 
 // HAMBURGER
-var hBtn = document.getElementById('hamburger');
-function toggleMenu(e){
-  e.preventDefault();
-  e.stopPropagation();
-  document.getElementById('mobileMenu').classList.toggle('open');
-}
-hBtn.addEventListener('click', toggleMenu);
-hBtn.addEventListener('touchend', toggleMenu);
+// hamburger handled inline
 function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
 
 // PARALLAX on hero
