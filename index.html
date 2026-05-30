@@ -531,38 +531,7 @@ function openHireMe(){document.getElementById('hireMeModal').classList.add('open
 function closeHireMe(){document.getElementById('hireMeModal').classList.remove('open');document.body.style.overflow='';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeHireMe();});
 
-document.getElementById('hireMeForm').addEventListener('submit',async function(e){
-  e.preventDefault();
-  const btn=this.querySelector('.form-submit');
-  const name=this.querySelector('#hm-name').value;
-  const email=this.querySelector('#hm-email').value;
-  const company=this.querySelector('#hm-company').value;
-  const role=this.querySelector('#hm-role').value;
-  const msg=this.querySelector('#hm-message').value;
-  btn.textContent='Sending…';btn.disabled=true;
-  try{
-    const res=await fetch('https://formspree.io/f/xgoqqbka',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({name,email,company,role,message:msg,_replyto:email,_subject:`Hire Diksha Kulkarni — ${company||'Opportunity'}`})
-    });
-    if(res.ok){
-      document.getElementById('formSuccess').style.display='flex';
-      this.style.display='none';
-    } else {
-      // Fallback to mailto if Formspree fails
-      const subject=encodeURIComponent(`Hire Diksha Kulkarni — ${company||'Opportunity'}`);
-      const body=encodeURIComponent(`Hi Diksha,\n\nName: ${name}\nEmail: ${email}\nCompany: ${company}\nRole: ${role}\n\nMessage:\n${msg}`);
-      window.location.href=`mailto:dikshakulk@gmail.com?subject=${subject}&body=${body}`;
-      setTimeout(()=>{document.getElementById('formSuccess').style.display='flex';this.style.display='none';},400);
-    }
-  }catch(err){
-    const subject=encodeURIComponent(`Hire Diksha Kulkarni — ${company||'Opportunity'}`);
-    const body=encodeURIComponent(`Hi Diksha,\n\nName: ${name}\nEmail: ${email}\nCompany: ${company}\nRole: ${role}\n\nMessage:\n${msg}`);
-    window.location.href=`mailto:dikshakulk@gmail.com?subject=${subject}&body=${body}`;
-    setTimeout(()=>{document.getElementById('formSuccess').style.display='flex';this.style.display='none';},400);
-  }
-});
+// Form submits natively to Formspree via action attribute
 
 // HAMBURGER
 // hamburger handled inline
@@ -600,24 +569,24 @@ window.addEventListener('scroll',()=>{
         <span style="font-size:0.72rem;background:rgba(212,160,23,0.12);border:1px solid rgba(212,160,23,0.3);color:var(--gold);padding:0.3rem 0.75rem;border-radius:2px;">⚡ Responding within 24h</span>
       </div>
       <!-- form -->
-      <form id="hireMeForm" style="display:flex;flex-direction:column;gap:1rem;">
+      <form id="hireMeForm" action="https://formspree.io/f/xgoqqbka" method="POST" style="display:flex;flex-direction:column;gap:1rem;"><input type="hidden" name="_subject" value="Hire Diksha Kulkarni — New Opportunity!"/>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
           <div class="hm-field">
             <label for="hm-name" class="hm-label">Your Name *</label>
-            <input id="hm-name" type="text" placeholder="Rahul Sharma" required class="hm-input"/>
+            <input id="hm-name" name="name" type="text" placeholder="Rahul Sharma" required class="hm-input"/>
           </div>
           <div class="hm-field">
             <label for="hm-email" class="hm-label">Email *</label>
-            <input id="hm-email" type="email" placeholder="rahul@company.com" required class="hm-input"/>
+            <input id="hm-email" name="email" type="email" placeholder="rahul@company.com" required class="hm-input"/>
           </div>
         </div>
         <div class="hm-field">
           <label for="hm-company" class="hm-label">Company / Organisation</label>
-          <input id="hm-company" type="text" placeholder="Acme Corp" class="hm-input"/>
+          <input id="hm-company" name="company" type="text" placeholder="Acme Corp" class="hm-input"/>
         </div>
         <div class="hm-field">
           <label for="hm-role" class="hm-label">Role Type</label>
-          <select id="hm-role" class="hm-input" style="appearance:none;cursor:pointer;">
+          <select id="hm-role" name="role" class="hm-input" style="appearance:none;cursor:pointer;">
             <option value="">Select opportunity type…</option>
             <option>Full-time Data Analyst</option>
             <option>Freelance / Contract</option>
@@ -628,7 +597,7 @@ window.addEventListener('scroll',()=>{
         </div>
         <div class="hm-field">
           <label for="hm-message" class="hm-label">Message *</label>
-          <textarea id="hm-message" placeholder="Tell me about the role or project…" required class="hm-input" style="height:110px;resize:vertical;"></textarea>
+          <textarea id="hm-message" name="message" placeholder="Tell me about the role or project…" required class="hm-input" style="height:110px;resize:vertical;"></textarea>
         </div>
         <button type="submit" class="form-submit" style="background:var(--dark);color:var(--cream);border:none;padding:0.9rem 1.5rem;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:background 0.2s,transform 0.2s;margin-top:0.25rem;">Send Message →</button>
       </form>
